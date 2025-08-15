@@ -18,7 +18,7 @@ class PlantDataset(Dataset):
             self.images = self.images[:self.limit]
             self.masks = self.masks[:self.limit]
         self.transform = transforms.Compose([
-            transforms.Resize((256, 256)),
+            transforms.Resize((128, 128)),
             transforms.ToTensor()
         ])
     

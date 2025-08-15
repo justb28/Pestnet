@@ -29,12 +29,13 @@ def evaluate_test_set(model, data_loader, device):
     precision_scores = []
     recall_scores = []
     error_scores = []
+    mse_scores=[]
     with torch.no_grad():
         for images, masks, *_ in data_loader:
             images = images.to(device)
             masks = masks.to(device)
             outputs = model(images)
-            outputs = torch.sigmoid(outputs)
+            #outputs = torch.sigmoid(outputs)
             preds = (outputs > 0.5).float()
             # torchmetrics expects shape [B, H, W] or [B, 1, H, W]
             iou = iou_metric(preds, masks)
@@ -48,8 +49,9 @@ def evaluate_test_set(model, data_loader, device):
             precision_scores.append(precision.item())
             recall_scores.append(recall.item())
             # Error (from your custom metric)
-            _, _, _, error = compute_metrics(preds, masks)
+            _, _, _, error , mse= compute_metrics(preds, masks)
             error_scores.append(error)
+            mse_scores.append(mse)
     print(f"Test set evaluation:")
     print(f"  Average IoU = {np.mean(iou_scores):.4f}")
     print(f"  Average Dice = {np.mean(dice_scores):.4f}")
@@ -57,6 +59,7 @@ def evaluate_test_set(model, data_loader, device):
     print(f"  Average Precision = {np.mean(precision_scores):.4f}")
     print(f"  Average Recall = {np.mean(recall_scores):.4f}")
     print(f"  Average Error Rate = {np.mean(error_scores):.4f}")
+    print(f"  Average mean square error = {np.mean(mse_scores):.4f}")
 
 
 def find_folders(base_path, target_folder):
@@ -128,6 +131,7 @@ train_loader = DataLoader(
     batch_size=2, 
     shuffle=True, 
     generator=generator, 
+    num_workers=2
 )
 
 test_loader = DataLoader(
@@ -139,7 +143,7 @@ test_loader = DataLoader(
 
 val_loader = DataLoader(val_dataset, batch_size=2, shuffle=False)
 
-model = UNet().to(device)
+model = Unet4().to(device)
 start_time = time.time()
 trained_model, loss_history = train_model(model, train_loader, device, num_epochs=15)
 end_time = time.time()
@@ -163,7 +167,7 @@ print("Visualizing predictions...")
 visualize_predictions(trained_model, dataset, device, num_samples=3, loss_history=loss_history, show_overlay=True, show_iou=True)
 
 # Ensure models directory exists before saving
-#s.makedirs("models", exist_ok=True)
+os.makedirs("models", exist_ok=True)
 # Save model
-#orch.save(trained_model.state_dict(), "models/unet4.pth")
-
+#
+torch.save(trained_model.state_dict(), "models/unet4.pth")

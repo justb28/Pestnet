@@ -24,7 +24,7 @@ def train_model(model, train_loader, device, num_epochs=10):
 
             outputs = model(images)
             # Apply sigmoid to model output for BCELoss
-            outputs = torch.sigmoid(outputs)
+            #outputs = torch.sigmoid(outputs)
             loss = criterion(outputs, masks)
 
             optimizer.zero_grad()

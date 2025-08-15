@@ -1,13 +1,13 @@
-import torch
 
+import torch
 def compute_metrics(preds, targets, threshold=0.5):
     """
-    Compute precision, recall, F1-score, and overall error.
+    Compute precision, recall, F1-score, error rate, and MSE.
     Args:
         preds: predicted masks, shape [B, 1, H, W]
         targets: ground truth masks, shape [B, 1, H, W]
     Returns:
-        precision, recall, f1, error_rate (all floats)
+        precision, recall, f1, error_rate, mse (all floats)
     """
     preds_bin = (preds > threshold).float()
     targets = targets.float()
@@ -22,9 +22,12 @@ def compute_metrics(preds, targets, threshold=0.5):
     f1 = 2 * precision * recall / (precision + recall + 1e-8)
     error = (fp + fn) / total  # per sample
 
+    mse = torch.mean((preds - targets) ** 2)
+
     return (
         precision.mean().item(),
         recall.mean().item(),
         f1.mean().item(),
-        error.mean().item()
+        error.mean().item(),
+        mse.mean().item()
     )
