@@ -7,6 +7,9 @@ from metric import compute_metrics
 def train_model(model, train_loader, device, num_epochs=10):
     criterion = nn.BCELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer, mode='min', factor=0.5, patience=2
+    )
     loss_history = []
 
     total_batches = num_epochs * len(train_loader)
@@ -23,8 +26,9 @@ def train_model(model, train_loader, device, num_epochs=10):
             masks = masks.to(device)
 
             outputs = model(images)
-            # Apply sigmoid to model output for BCELoss
-            #outputs = torch.sigmoid(outputs)
+            # If your model doesn’t already include sigmoid, uncomment this:
+            # outputs = torch.sigmoid(outputs)
+            
             loss = criterion(outputs, masks)
 
             optimizer.zero_grad()
@@ -43,10 +47,13 @@ def train_model(model, train_loader, device, num_epochs=10):
         avg_loss = epoch_loss / len(train_loader)
         loss_history.append(avg_loss)
 
+        # 🔑 Step the scheduler with avg loss (or val loss if you have one)
+        scheduler.step(avg_loss)
+
+        print(f"Epoch [{epoch+1}/{num_epochs}] - Avg Loss: {avg_loss:.4f}, LR: {optimizer.param_groups[0]['lr']:.6f}")
+
     progress_bar.close()
     print(f"\n✅ Training completed. Final Average Loss: {loss_history[-1]:.4f}")
-    # Optional: run validation metrics
-    # validate_model(model, val_loader, device)
 
     return model, loss_history
 
