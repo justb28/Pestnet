@@ -85,7 +85,7 @@ if not data_paths:
     # Try looking for specific folders
     natural_paths = find_folders(base_path, "Directory 1")
     mask_paths = find_folders(base_path, "Directory 2")
-    
+
     if natural_paths and mask_paths:
         natural_path = natural_paths[0]
         mask_path = mask_paths[0]
@@ -111,8 +111,7 @@ if not os.path.exists(natural_path):
 if not os.path.exists(mask_path):
     raise FileNotFoundError(f"Error: Mask directory not found at {mask_path}")
 
-dataset = PlantDataset(natural_path, mask_path, limit=1308)  # Adjust limit as needed
-
+dataset = PlantDataset(natural_path, mask_path, limit=1308,augment_with_opencv=False)  # Adjust limit as needed
 
 
 
@@ -128,7 +127,7 @@ val_dataset = train_dataset
 # Create data loaders
 train_loader = DataLoader(
     train_dataset, 
-    batch_size=2, 
+    batch_size=4, 
     shuffle=True, 
     generator=generator, 
     num_workers=2
@@ -136,7 +135,7 @@ train_loader = DataLoader(
 
 test_loader = DataLoader(
     test_dataset, 
-    batch_size=2, 
+    batch_size=4, 
     shuffle=False, 
     num_workers=2
 )
@@ -145,7 +144,7 @@ val_loader = DataLoader(val_dataset, batch_size=2, shuffle=False)
 
 model = Unet4().to(device)
 start_time = time.time()
-trained_model, loss_history = train_model(model, train_loader, device, num_epochs=25, learning_rate=1e-4)
+trained_model, loss_history = train_model(model, train_loader, device, num_epochs=30, learning_rate=0.001)
 end_time = time.time()
 elapsed = int(end_time - start_time)
 hours = elapsed // 3600

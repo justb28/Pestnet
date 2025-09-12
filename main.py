@@ -286,11 +286,14 @@ def create_results_summary(all_results, results_dir):
               f"{result['training_time']:<6.0f}")
     
     # Save summary as CSV
-    import pandas as pd
-    df = pd.DataFrame(summary_data)
-    df.to_csv(os.path.join(results_dir, "results_summary.csv"), index=False)
-    print(f"\nResults summary saved to: {os.path.join(results_dir, 'results_summary.csv')}")
-
+    try:
+        import pandas as pd
+        df = pd.DataFrame(summary_data)
+        df.to_csv(os.path.join(results_dir, "results_summary.csv"), index=False)
+        print(f"\nResults summary saved to: {os.path.join(results_dir, 'results_summary.csv')}")
+    except ImportError:
+        print("Pandas not available, skipping CSV export")
+        print("Results still available in JSON format")
 
 def find_folders(base_path, target_folder):
     """Search for a target folder in the directory structure"""
@@ -309,8 +312,10 @@ def find_folders(base_path, target_folder):
 def main():
     # Setup
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"Using device: {device}")
+    SKIP_TRAINING = True  # Set to True to skip grid search and load existing results
+    RESULTS_DIR = "grid_search_results"  # Your results directory
     
+    print(f"Using device: {device}")
     # Find data paths (your existing code)
     base_path = os.getcwd()
     print(f"Current working directory: {base_path}")
@@ -345,17 +350,31 @@ def main():
     dataset = PlantDataset(natural_path, mask_path, limit=1308)
     print(f"Dataset size: {len(dataset)}")
     
-    # Define hyperparameter grid
-    param_grid = {
-        'epochs': [10, 15, 25, 30],  # Different epoch counts
-        'batch_size': [2, 4, 8],     # Different batch sizes
-        'learning_rate': [1e-4, 5e-4, 1e-3]  # Different learning rates
-    }
+   
     
-    print(f"Total combinations to test: {len(list(itertools.product(*param_grid.values())))}")
-    
-    # Run grid search
-    results, best_model_path = grid_search_hyperparameters(dataset, device, param_grid)
+    if SKIP_TRAINING:
+        # Load existing results instead of training
+        results_file = os.path.join(RESULTS_DIR, "final_results.json")
+        if os.path.exists(results_file):
+            print("Loading existing grid search results...")
+            with open(results_file, 'r') as f:
+                results = json.load(f)
+            best_model_path = results['best_model_path']
+            print(f"Loaded results. Best parameters: {results['best_params']}")
+            print(f"Best model path: {best_model_path}")
+        else:
+            raise FileNotFoundError(f"No existing results found at {results_file}")
+    else:
+            # Define hyperparameter grid
+        param_grid = {
+            'epochs': [10, 15, 25, 30],  # Different epoch counts
+            'batch_size': [2, 4, 8],     # Different batch sizes
+            'learning_rate': [1e-4, 5e-4, 1e-3]  # Different learning rates
+        }
+        
+        print(f"Total combinations to test: {len(list(itertools.product(*param_grid.values())))}")
+        # Run grid search
+        results, best_model_path = grid_search_hyperparameters(dataset, device, param_grid)
     
     # Optional: Load and test the best model on a separate test set
     print("\n" + "="*60)
@@ -364,7 +383,7 @@ def main():
     
     # Create final train/test split (90/10 for final evaluation)
     generator = torch.Generator().manual_seed(42)  # Different seed for final split
-    final_train_size = int(0.9 * len(dataset))
+    final_train_size = int(0.9* len(dataset))
     final_test_size = len(dataset) - final_train_size
     _, final_test_dataset = random_split(dataset, [final_train_size, final_test_size], generator=generator)
     

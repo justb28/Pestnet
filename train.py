@@ -4,9 +4,9 @@ import torch.nn as nn
 import torch.optim as optim
 from metric import compute_metrics
 
-def train_model(model, train_loader, device, num_epochs=10):
+def train_model(model, train_loader, device, num_epochs=10,learning_rate=0.001):
     criterion = nn.BCELoss()
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, mode='min', factor=0.5, patience=2
     )
