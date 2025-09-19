@@ -83,8 +83,8 @@ data_paths = find_folders(base_path, "Data")
 
 if not data_paths:
     # Try looking for specific folders
-    natural_paths = find_folders(base_path, "Directory 1")
-    mask_paths = find_folders(base_path, "Directory 2")
+    natural_paths = find_folders(base_path, "Directory 3")
+    mask_paths = find_folders(base_path, "Directory 7")
 
     if natural_paths and mask_paths:
         natural_path = natural_paths[0]
@@ -92,13 +92,13 @@ if not data_paths:
     else:
         print("Could not find data folders automatically.")
         # Hard code the paths based on your screenshot
-        natural_path = os.path.join(base_path, "UNET_ENV", "Data", "Directory 1")
-        mask_path = os.path.join(base_path, "UNET_ENV", "Data", "Directory 2")
+        natural_path = os.path.join(base_path, "UNET_ENV", "Data", "Directory 3")
+        mask_path = os.path.join(base_path, "UNET_ENV", "Data", "Directory 7")
 else:
     # Construct paths based on found plant_data folder
     plant_data_path = data_paths[0]
-    natural_path = os.path.join(plant_data_path, "Directory 1")
-    mask_path = os.path.join(plant_data_path, "Directory 2")
+    natural_path = os.path.join(plant_data_path, "Directory 3")
+    mask_path = os.path.join(plant_data_path, "Directory 7")
 
 print(f"Using image path: {natural_path}")
 print(f"Using mask path: {mask_path}")
@@ -111,7 +111,7 @@ if not os.path.exists(natural_path):
 if not os.path.exists(mask_path):
     raise FileNotFoundError(f"Error: Mask directory not found at {mask_path}")
 
-dataset = PlantDataset(natural_path, mask_path, limit=1308,augment_with_opencv=False)  # Adjust limit as needed
+dataset = PlantDataset(natural_path, mask_path, limit=1308,augment_with_opencv=True)  # Adjust limit as needed
 
 
 
@@ -169,4 +169,4 @@ visualize_predictions(trained_model, dataset, device, num_samples=3, loss_histor
 os.makedirs("models", exist_ok=True)
 # Save model
 #
-torch.save(trained_model.state_dict(), "models/unet4.pth")
+torch.save(trained_model.state_dict(), "models/pestnet2.pth")

@@ -30,50 +30,74 @@ class PlantDataset(Dataset):
         ])
 
 
-    def apply_red_enhancement(self, pil_image):
-        """Enhance red lesions using OpenCV"""
-        # Convert to OpenCV
+    def apply_lesion_detection(self, pil_image, plant_mask_pil):
+        """Detects red/brown lesions ONLY on the plant area."""
         img_array = np.array(pil_image)
+        plant_mask_array = np.array(plant_mask_pil)
+        
+        # 1. Convert to HSV
         hsv = cv.cvtColor(img_array, cv.COLOR_RGB2HSV)
         
-        # Red detection parameters
-        lower_red1 = np.array([0, 50, 50])
-        upper_red1 = np.array([10, 255, 255])
-        lower_red2 = np.array([170, 50, 50])
-        upper_red2 = np.array([179, 255, 255])
+        # 2. Define Red/Brown Lesion Thresholds (you'll need to fine-tune this)
+        # Red (0-10) and Yellow/Brown (10-30) in Hue
+        lower_lesion1 = np.array([0, 50, 50])  # Red lower
+        upper_lesion1 = np.array([10, 255, 255]) # Red upper
+        
+        lower_lesion2 = np.array([160, 50, 50]) # Red wrap-around
+        upper_lesion2 = np.array([179, 255, 255])
+        
+        # You might also need a mask for brown/yellow lesions (e.g., H 15-30)
             
-        mask1 = cv.inRange(hsv, lower_red1, upper_red1)
-        mask2 = cv.inRange(hsv, lower_red2, upper_red2)
-        red_mask = cv.bitwise_or(mask1, mask2)
+        mask1 = cv.inRange(hsv, lower_lesion1, upper_lesion1)
+        mask2 = cv.inRange(hsv, lower_lesion2, upper_lesion2)
+        lesion_mask_raw = cv.bitwise_or(mask1, mask2)
+        
+        # 3. Apply the plant segmentation mask to ensure only plant pixels are considered
+        # The plant_mask_array must be the same size and a single channel (0/255)
+        # We perform a bitwise AND between the lesion detection and the plant mask
+        
+        # Ensure plant_mask_array is a binary mask (0 or 255)
+        plant_mask_binary = (plant_mask_array > 0).astype(np.uint8) * 255
+        
+        final_lesion_mask = cv.bitwise_and(lesion_mask_raw, lesion_mask_raw, mask=plant_mask_binary)
 
-        # Convert to PIL Image (mode "L" = grayscale)
-        return Image.fromarray(red_mask).convert("L")
+        # Apply morphological opening to clean up noise
+        kernel = np.ones((3,3), np.uint8)
+        final_lesion_mask = cv.morphologyEx(final_lesion_mask, cv.MORPH_OPEN, kernel)
+        
+        # Convert to PIL Image
+        return Image.fromarray(final_lesion_mask).convert("L")
         
     def __getitem__(self, index):
             try:
                 img = Image.open(self.images[index]).convert("RGB")
                 img = ImageOps.exif_transpose(img)
                 
+                # --- Mask Loading ---
+                # Mask should be loaded as a single channel (L) since it's a binary/grayscale target
+                mask = Image.open(self.masks[index]).convert("L")
+                mask = ImageOps.exif_transpose(mask)  
+                    
+                # --- Enhancement/Augmentation (Optional) ---
+                # If you want to use the red enhancement logic to CREATE a mask, 
+                # you must first apply the plant segmentation mask to the image.
                 
+                # This is complex and usually better done as a separate, pre-generated dataset.
+                # For a standard setup, we skip the apply_red_enhancement inside __getitem__.
                 
-                # Apply OpenCV enhancement
-                if self.augment_with_opencv:
-                    mask = Image.open(self.masks[index]).convert("RGB")
-                    mask = ImageOps.exif_transpose(mask)
-                    mask = self.apply_red_enhancement(mask)
-                else:
-                    mask = Image.open(self.masks[index]).convert("L")
-                    mask = ImageOps.exif_transpose(mask)  
                 # Apply transforms
                 img_tensor = self.transform(img)
                 mask_tensor = self.mask_transform(mask)
-                mask_tensor = (mask_tensor != 0).float()  # Ensure binary mask
-
                 
+                # Ensure binary mask: 1.0 for lesion, 0.0 otherwise
+                # Note: 0.5 is a common threshold for Image.NEAREST upsampling artifacts
+                mask_tensor = (mask_tensor > 0.5).float() 
+
                 img_filename = os.path.basename(self.images[index])
                 return img_tensor, mask_tensor, img_filename
                 
             except Exception as e:
+                # Handle error (original code is fine here)
                 return self.__getitem__((index + 1) % len(self))
     def __len__(self):
     
