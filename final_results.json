@@ -1,0 +1,387 @@
+{
+  "timestamp": "2025-08-26T19:52:52.193096",
+  "param_grid": {
+    "epochs": [
+      10,
+      15,
+      25,
+      30
+    ],
+    "batch_size": [
+      2,
+      4,
+      8
+    ],
+    "learning_rate": [
+      0.0001,
+      0.0005,
+      0.001
+    ]
+  },
+  "total_combinations": 36,
+  "best_score": -1,
+  "best_params": null,
+  "best_model_path": null,
+  "all_results": [
+    {
+      "combination_id": 1,
+      "parameters": {
+        "epochs": 10,
+        "batch_size": 2,
+        "learning_rate": 0.0001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 2,
+      "parameters": {
+        "epochs": 10,
+        "batch_size": 2,
+        "learning_rate": 0.0005
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 3,
+      "parameters": {
+        "epochs": 10,
+        "batch_size": 2,
+        "learning_rate": 0.001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 4,
+      "parameters": {
+        "epochs": 10,
+        "batch_size": 4,
+        "learning_rate": 0.0001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 5,
+      "parameters": {
+        "epochs": 10,
+        "batch_size": 4,
+        "learning_rate": 0.0005
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 6,
+      "parameters": {
+        "epochs": 10,
+        "batch_size": 4,
+        "learning_rate": 0.001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 7,
+      "parameters": {
+        "epochs": 10,
+        "batch_size": 8,
+        "learning_rate": 0.0001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 8,
+      "parameters": {
+        "epochs": 10,
+        "batch_size": 8,
+        "learning_rate": 0.0005
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 9,
+      "parameters": {
+        "epochs": 10,
+        "batch_size": 8,
+        "learning_rate": 0.001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 10,
+      "parameters": {
+        "epochs": 15,
+        "batch_size": 2,
+        "learning_rate": 0.0001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 11,
+      "parameters": {
+        "epochs": 15,
+        "batch_size": 2,
+        "learning_rate": 0.0005
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 12,
+      "parameters": {
+        "epochs": 15,
+        "batch_size": 2,
+        "learning_rate": 0.001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 13,
+      "parameters": {
+        "epochs": 15,
+        "batch_size": 4,
+        "learning_rate": 0.0001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 14,
+      "parameters": {
+        "epochs": 15,
+        "batch_size": 4,
+        "learning_rate": 0.0005
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 15,
+      "parameters": {
+        "epochs": 15,
+        "batch_size": 4,
+        "learning_rate": 0.001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 16,
+      "parameters": {
+        "epochs": 15,
+        "batch_size": 8,
+        "learning_rate": 0.0001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 17,
+      "parameters": {
+        "epochs": 15,
+        "batch_size": 8,
+        "learning_rate": 0.0005
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 18,
+      "parameters": {
+        "epochs": 15,
+        "batch_size": 8,
+        "learning_rate": 0.001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 19,
+      "parameters": {
+        "epochs": 25,
+        "batch_size": 2,
+        "learning_rate": 0.0001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 20,
+      "parameters": {
+        "epochs": 25,
+        "batch_size": 2,
+        "learning_rate": 0.0005
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 21,
+      "parameters": {
+        "epochs": 25,
+        "batch_size": 2,
+        "learning_rate": 0.001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 22,
+      "parameters": {
+        "epochs": 25,
+        "batch_size": 4,
+        "learning_rate": 0.0001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 23,
+      "parameters": {
+        "epochs": 25,
+        "batch_size": 4,
+        "learning_rate": 0.0005
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 24,
+      "parameters": {
+        "epochs": 25,
+        "batch_size": 4,
+        "learning_rate": 0.001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 25,
+      "parameters": {
+        "epochs": 25,
+        "batch_size": 8,
+        "learning_rate": 0.0001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 26,
+      "parameters": {
+        "epochs": 25,
+        "batch_size": 8,
+        "learning_rate": 0.0005
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 27,
+      "parameters": {
+        "epochs": 25,
+        "batch_size": 8,
+        "learning_rate": 0.001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 28,
+      "parameters": {
+        "epochs": 30,
+        "batch_size": 2,
+        "learning_rate": 0.0001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 29,
+      "parameters": {
+        "epochs": 30,
+        "batch_size": 2,
+        "learning_rate": 0.0005
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 30,
+      "parameters": {
+        "epochs": 30,
+        "batch_size": 2,
+        "learning_rate": 0.001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 31,
+      "parameters": {
+        "epochs": 30,
+        "batch_size": 4,
+        "learning_rate": 0.0001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 32,
+      "parameters": {
+        "epochs": 30,
+        "batch_size": 4,
+        "learning_rate": 0.0005
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 33,
+      "parameters": {
+        "epochs": 30,
+        "batch_size": 4,
+        "learning_rate": 0.001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 34,
+      "parameters": {
+        "epochs": 30,
+        "batch_size": 8,
+        "learning_rate": 0.0001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 35,
+      "parameters": {
+        "epochs": 30,
+        "batch_size": 8,
+        "learning_rate": 0.0005
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    },
+    {
+      "combination_id": 36,
+      "parameters": {
+        "epochs": 30,
+        "batch_size": 8,
+        "learning_rate": 0.001
+      },
+      "error": "train_model() got an unexpected keyword argument 'learning_rate'",
+      "status": "failed"
+    }
+  ]
+}
