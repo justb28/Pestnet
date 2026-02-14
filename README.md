@@ -46,7 +46,6 @@ PestNet/
 ├── dataset/           # Dataset loading and preprocessing scripts
 ├── models.py          # Model definitions and shared architectures
 ├── train.py           # Training pipeline
-├── evaluate.py        # Evaluation scripts
 └── README.md
 ```
 
@@ -82,7 +81,7 @@ Training curves show good convergence with minor overfitting, suggesting strong 
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/PestNet.git
+   git clone https://github.com/justb28/PestNet.git
    cd PestNet
    ```
 
